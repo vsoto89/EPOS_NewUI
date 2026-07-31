@@ -1,0 +1,186 @@
+<UserControl x:Class="EPOS_NewUI.Views.PosPremiumUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="#F4F7F6" FontFamily="Segoe UI">
+
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/> <!-- Lado Izquierdo (Productos) -->
+            <ColumnDefinition Width="3*"/> <!-- Lado Derecho (Ticket) -->
+        </Grid.ColumnDefinitions>
+
+        <!-- LADO IZQUIERDO: PRODUCTOS Y MENÚ -->
+        <Grid Grid.Column="0" Margin="0,0,20,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/> <!-- Cabecera -->
+                <RowDefinition Height="Auto"/> <!-- Buscador -->
+                <RowDefinition Height="Auto"/> <!-- Categorías -->
+                <RowDefinition Height="*"/>    <!-- Grilla Productos -->
+                <RowDefinition Height="Auto"/> <!-- Botones Inferiores -->
+            </Grid.RowDefinitions>
+
+            <!-- Fila 0: Cabecera -->
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/> <!-- Botón Volver -->
+                    <ColumnDefinition Width="*"/>    <!-- Títulos -->
+                    <ColumnDefinition Width="Auto"/> <!-- Vendedor -->
+                </Grid.ColumnDefinitions>
+                
+                <!-- Nuevo botón para volver al menú -->
+                <Button Grid.Column="0" Content="⬅ Volver" Width="80" Height="35" Background="#E2E8F0" Foreground="#2C3E50" BorderThickness="0" Cursor="Hand" Margin="0,0,15,0" VerticalAlignment="Top" Click="BtnVolver_Click"/>
+                
+                <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Left">
+                    <TextBlock Text="EPOS Premium" FontSize="32" FontWeight="Bold" Foreground="#2C3E50"/>
+                    <TextBlock Text="Caja 01" FontSize="14" Foreground="#7F8C8D"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,0,0">
+                    <TextBlock Text="Vendedor:" VerticalAlignment="Center" Margin="0,0,10,0" Foreground="#2C3E50"/>
+                    <ComboBox Width="200" Height="25" SelectedIndex="0">
+                        <ComboBoxItem Content="Juan Pérez"/>
+                        <ComboBoxItem Content="María González"/>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+
+            <!-- Fila 1: Buscador y Hora -->
+            <Border Grid.Row="1" Background="White" CornerRadius="8" Padding="15" Margin="0,0,0,20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Margin="0,0,20,0">
+                        <TextBlock Text="Buscar producto" Foreground="#7F8C8D" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtBuscar" Height="30" FontSize="14" Padding="5" TextChanged="TxtBuscar_TextChanged"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="Hora" Foreground="#7F8C8D" FontSize="12"/>
+                        <TextBlock x:Name="txtHora" Text="00:00:00" FontSize="20" FontWeight="Bold" Foreground="#2C3E50"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Fila 2: Categorías (Agregado Click y Tag) -->
+            <StackPanel Grid.Row="2" Margin="0,0,0,15">
+                <TextBlock Text="Categorías" FontSize="16" FontWeight="SemiBold" Foreground="#2C3E50" Margin="0,0,0,10"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Todas" Tag="Todas" Click="BtnCategoria_Click" Width="80" Height="35" Background="#E2E8F0" BorderThickness="0" Margin="0,0,10,0" Cursor="Hand"/>
+                    <Button Content="Bebidas" Tag="Bebidas" Click="BtnCategoria_Click" Width="80" Height="35" Background="#E2E8F0" BorderThickness="0" Margin="0,0,10,0" Cursor="Hand"/>
+                    <Button Content="Comidas" Tag="Comidas" Click="BtnCategoria_Click" Width="80" Height="35" Background="#E2E8F0" BorderThickness="0" Margin="0,0,10,0" Cursor="Hand"/>
+                    <Button Content="Postres" Tag="Postres" Click="BtnCategoria_Click" Width="80" Height="35" Background="#E2E8F0" BorderThickness="0" Cursor="Hand"/>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- Fila 3: Productos (Tag Modificado a "Categoria|Nombre|Precio") -->
+            <WrapPanel x:Name="wpProductos" Grid.Row="3" ItemWidth="180" ItemHeight="100">
+                <Button Tag="Bebidas|Café Americano|3000" Background="#2C3E50" Margin="0,0,15,15" Padding="15" BorderThickness="0" Cursor="Hand" Click="BtnProducto_Click">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Café Americano" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
+                        <TextBlock Text="$ 3.000" Foreground="#20C997" FontWeight="Bold" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Button>
+                <Button Tag="Bebidas|Capuccino|4000" Background="#2C3E50" Margin="0,0,15,15" Padding="15" BorderThickness="0" Cursor="Hand" Click="BtnProducto_Click">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Capuccino" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
+                        <TextBlock Text="$ 4.000" Foreground="#20C997" FontWeight="Bold" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Button>
+                <Button Tag="Bebidas|Jugo Natural|3000" Background="#2C3E50" Margin="0,0,15,15" Padding="15" BorderThickness="0" Cursor="Hand" Click="BtnProducto_Click">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Jugo Natural" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
+                        <TextBlock Text="$ 3.000" Foreground="#20C997" FontWeight="Bold" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Button>
+                <Button Tag="Comidas|Sandwich Club|4000" Background="#2C3E50" Margin="0,0,15,15" Padding="15" BorderThickness="0" Cursor="Hand" Click="BtnProducto_Click">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Sandwich Club" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
+                        <TextBlock Text="$ 4.000" Foreground="#20C997" FontWeight="Bold" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Button>
+                <Button Tag="Comidas|Bagel de Jamón|6000" Background="#2C3E50" Margin="0,0,15,15" Padding="15" BorderThickness="0" Cursor="Hand" Click="BtnProducto_Click">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Bagel de Jamón" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
+                        <TextBlock Text="$ 6.000" Foreground="#20C997" FontWeight="Bold" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Button>
+                <Button Tag="Comidas|Ensalada César|6000" Background="#2C3E50" Margin="0,0,15,15" Padding="15" BorderThickness="0" Cursor="Hand" Click="BtnProducto_Click">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Ensalada César" Foreground="White" FontWeight="SemiBold" FontSize="14"/>
+                        <TextBlock Text="$ 6.000" Foreground="#20C997" FontWeight="Bold" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+
+            <!-- Fila 4: Botones de Acción -->
+            <Grid Grid.Row="4" Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Limpiar ticket" Width="120" Height="40" Background="#E2E8F0" Foreground="#2C3E50" BorderThickness="0" Cursor="Hand" Margin="0,0,15,0" Click="BtnLimpiar_Click"/>
+                <Button Grid.Column="1" Content="Cobrar" Width="120" Height="40" Background="#20C997" Foreground="White" FontWeight="Bold" BorderThickness="0" Cursor="Hand" Click="BtnCobrar_Click"/>
+            </Grid>
+        </Grid>
+
+        <!-- LADO DERECHO: TICKET -->
+        <Border Grid.Column="1" Background="White" CornerRadius="12" Padding="20">
+            <Border.Effect>
+                <DropShadowEffect Color="Gray" BlurRadius="10" ShadowDepth="2" Opacity="0.1"/>
+            </Border.Effect>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="Ticket actual" FontSize="24" FontWeight="Bold" Foreground="#2C3E50"/>
+                    <TextBlock x:Name="txtContadorArticulos" Text="0 artículos" FontSize="14" Foreground="#7F8C8D" Margin="0,5,0,5"/>
+                    <TextBlock Text="Cliente: Consumo en local" FontSize="14" Foreground="#7F8C8D"/>
+                </StackPanel>
+
+                <!-- LISTA AGRUPADA CON BOTONES DE + Y - -->
+                <ScrollViewer Grid.Row="1" Margin="0,20,0,20" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="icTicket">
+                        <!-- Plantilla de cómo se verá cada fila del ticket -->
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/> <!-- Nombre -->
+                                        <ColumnDefinition Width="Auto"/> <!-- Botón (-) -->
+                                        <ColumnDefinition Width="30"/> <!-- Cantidad -->
+                                        <ColumnDefinition Width="Auto"/> <!-- Botón (+) -->
+                                        <ColumnDefinition Width="Auto"/> <!-- Total Fila -->
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <TextBlock Grid.Column="0" Text="{Binding Nombre}" VerticalAlignment="Center" FontSize="14" Foreground="#2C3E50" TextWrapping="Wrap" Margin="0,0,10,0"/>
+                                    
+                                    <Button Grid.Column="1" Content="-" Width="25" Height="25" Background="#E2E8F0" BorderThickness="0" Cursor="Hand" Tag="{Binding}" Click="BtnRestarItem_Click"/>
+                                    
+                                    <TextBlock Grid.Column="2" Text="{Binding Cantidad}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold" Foreground="#2C3E50"/>
+                                    
+                                    <Button Grid.Column="3" Content="+" Width="25" Height="25" Background="#E2E8F0" BorderThickness="0" Cursor="Hand" Tag="{Binding}" Click="BtnSumarItem_Click"/>
+                                    
+                                    <TextBlock Grid.Column="4" Text="{Binding TotalFormateado}" VerticalAlignment="Center" HorizontalAlignment="Right" Width="70" TextAlignment="Right" FontSize="14" FontWeight="Bold" Foreground="#20C997" Margin="10,0,0,0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <Border Grid.Row="2" Background="#F8F9FA" CornerRadius="8" Padding="15">
+                    <StackPanel>
+                        <TextBlock x:Name="txtSubtotal" Text="Subtotal: $0" FontSize="14" Foreground="#2C3E50" Margin="0,0,0,5"/>
+                        <TextBlock x:Name="txtIva" Text="IVA (19%): $0" FontSize="14" Foreground="#2C3E50" Margin="0,0,0,10"/>
+                        <TextBlock x:Name="txtTotal" Text="Total: $0" FontSize="24" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,5"/>
+                        <TextBlock Text="Estado: listo para cobrar" FontSize="12" Foreground="#7F8C8D"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

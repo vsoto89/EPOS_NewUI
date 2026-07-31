@@ -1,0 +1,10 @@
+bin/
+obj/
+*.user
+*.userosscache
+*.suo
+*.vs/
+*.dbmdl
+*.opendb
+*.vsconfig
+.vscode/

@@ -6,12 +6,13 @@ namespace EPOS_NewUI
 {
     public partial class MainWindow : Window
     {
+        public string UsuarioActual { get; set; } = "Administrador";
+
         public MainWindow()
         {
             InitializeComponent();
 
             // Arrancamos la aplicación cargando la pantalla de Login.
-            // (Si te marca error es porque aún no creas el archivo LoginUC)
             CambiarPantalla(new LoginUC()); 
         }
 

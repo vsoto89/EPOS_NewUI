@@ -9,35 +9,35 @@ namespace EPOS_NewUI.Views
         public LoginUC()
         {
             InitializeComponent();
-            
-            // Cargar automáticamente la fecha de hoy en el selector
-            dpFechaSistema.SelectedDate = DateTime.Now;
-            
-            // Poner el cursor directamente en la contraseña al abrir
-            txtPassword.Focus(); 
+            txtPassword.Focus();
         }
 
         private void btnEntrar_Click(object sender, RoutedEventArgs e)
         {
-            // OBTENER LA CONTRASEÑA ESCRITA
-            string clave = txtPassword.Password;
+            string perfilSeleccionado = (cbUsuario.SelectedItem as ComboBoxItem)?.Content?.ToString() ?? "Administrador";
+            string clave = txtPassword.Password ?? string.Empty;
 
-            // VALIDACIÓN DE PRUEBA (puedes cambiar "1234" por la clave real)
-            if (clave == "1234")
+            if (perfilSeleccionado == "Administrador" && clave == "admin123")
             {
-                // Buscamos la ventana principal contenedora
-                MainWindow ventanaRaiz = (MainWindow)Window.GetWindow(this);
-
-                // Aquí deberías pasar a MenuUC, pero para probar directamente tu avance, 
-                // pasaremos a PosPremiumUC (Asegúrate de que este archivo exista en tu carpeta Views)
-                ventanaRaiz.CambiarPantalla(new MenuUC());
+                AbrirMenu("Administrador");
+            }
+            else if (perfilSeleccionado == "Vendedor" && clave == "vendedor123")
+            {
+                AbrirMenu("Vendedor");
             }
             else
             {
-                MessageBox.Show("Contraseña incorrecta. Intente nuevamente.", "Error de Acceso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Credenciales incorrectas. Intente nuevamente.", "Error de Acceso", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtPassword.Clear();
                 txtPassword.Focus();
             }
+        }
+
+        private void AbrirMenu(string rol)
+        {
+            MainWindow ventanaRaiz = (MainWindow)Window.GetWindow(this);
+            ventanaRaiz.UsuarioActual = rol;
+            ventanaRaiz.CambiarPantalla(new MenuUC(rol));
         }
 
         private void btnSalir_Click(object sender, RoutedEventArgs e)

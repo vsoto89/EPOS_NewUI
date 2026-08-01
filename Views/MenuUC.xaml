@@ -27,7 +27,7 @@
 			</Button>
 
 			<!-- Botón 2: Clientes -->
-			<Button Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnClientes_Click">
+			<Button x:Name="btnClientes" Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnClientes_Click">
 				<StackPanel VerticalAlignment="Center">
 					<TextBlock Text="👥" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
 					<TextBlock Text="Maestro Clientes" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
@@ -35,7 +35,7 @@
 			</Button>
 
 			<!-- Botón 3: Administración -->
-			<Button Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnProximamente_Click">
+			<Button x:Name="btnAdmin" Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnProximamente_Click">
 				<StackPanel VerticalAlignment="Center">
 					<TextBlock Text="⚙️" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
 					<TextBlock Text="Administración" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
@@ -43,7 +43,7 @@
 			</Button>
 
 			<!-- Botón 4: Reportes -->
-			<Button Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnProximamente_Click">
+			<Button x:Name="btnInformes" Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnProximamente_Click">
 				<StackPanel VerticalAlignment="Center">
 					<TextBlock Text="📊" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
 					<TextBlock Text="Informes" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>

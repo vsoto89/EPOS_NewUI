@@ -48,9 +48,12 @@
 
                     <StackPanel Grid.Row="1" VerticalAlignment="Center">
                         
-                        <!-- Fecha del Sistema -->
-                        <TextBlock Text="Fecha del Sistema" FontSize="14" Foreground="#7F8C8D" Margin="0,0,0,5"/>
-                        <DatePicker x:Name="dpFechaSistema" Height="35" FontSize="14" Margin="0,0,0,20"/>
+                        <!-- Perfil de usuario -->
+                        <TextBlock Text="Usuario" FontSize="14" Foreground="#7F8C8D" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="cbUsuario" Height="35" FontSize="14" Margin="0,0,0,15" SelectedIndex="0">
+                            <ComboBoxItem Content="Administrador"/>
+                            <ComboBoxItem Content="Vendedor"/>
+                        </ComboBox>
 
                         <!-- Contraseña -->
                         <TextBlock Text="Contraseña" FontSize="14" Foreground="#7F8C8D" Margin="0,0,0,5"/>

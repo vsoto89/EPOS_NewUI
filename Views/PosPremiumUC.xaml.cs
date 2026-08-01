@@ -215,7 +215,7 @@ namespace EPOS_NewUI.Views
         private void BtnVolver_Click(object sender, RoutedEventArgs e)
         {
             MainWindow ventanaRaiz = (MainWindow)Window.GetWindow(this);
-            ventanaRaiz.CambiarPantalla(new MenuUC());
+            ventanaRaiz.CambiarPantalla(new MenuUC(ventanaRaiz.UsuarioActual));
         }
     }
 }

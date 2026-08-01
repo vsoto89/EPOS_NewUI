@@ -5,9 +5,19 @@ namespace EPOS_NewUI.Views
 {
     public partial class MenuUC : UserControl
     {
-        public MenuUC()
+        public MenuUC(string rolUsuario)
         {
             InitializeComponent();
+            AplicarPermisos(rolUsuario);
+        }
+
+        private void AplicarPermisos(string rolUsuario)
+        {
+            bool esAdmin = rolUsuario == "Administrador";
+
+            btnClientes.Visibility = esAdmin ? Visibility.Visible : Visibility.Collapsed;
+            btnAdmin.Visibility = esAdmin ? Visibility.Visible : Visibility.Collapsed;
+            btnInformes.Visibility = esAdmin ? Visibility.Visible : Visibility.Collapsed;
         }
 
         // Navegar al Punto de Venta

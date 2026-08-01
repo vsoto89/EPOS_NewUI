@@ -3,61 +3,61 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Background="#F4F7F6" FontFamily="Segoe UI">
 
-    <Grid Margin="50">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+	<Grid Margin="50">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
 
-        <!-- Cabecera del Menú -->
-        <StackPanel Grid.Row="0" Margin="0,0,0,40">
-            <TextBlock Text="Menú Principal" FontSize="36" FontWeight="Bold" Foreground="#2C3E50"/>
-            <TextBlock Text="Seleccione un módulo para comenzar" FontSize="16" Foreground="#7F8C8D" Margin="0,5,0,0"/>
-        </StackPanel>
+		<!-- Cabecera del Menú -->
+		<StackPanel Grid.Row="0" Margin="0,0,0,40">
+			<TextBlock Text="Menú Principal" FontSize="36" FontWeight="Bold" Foreground="#2C3E50"/>
+			<TextBlock Text="Seleccione un módulo para comenzar" FontSize="16" Foreground="#7F8C8D" Margin="0,5,0,0"/>
+		</StackPanel>
 
-        <!-- Grilla de Módulos -->
-        <WrapPanel Grid.Row="1" ItemWidth="220" ItemHeight="160">
-            
-            <!-- Botón 1: Punto de Venta (Destacado en verde) -->
-            <Button Background="#20C997" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnPos_Click">
-                <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="🛒" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBlock Text="Punto de Venta" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Button>
+		<!-- Grilla de Módulos -->
+		<WrapPanel Grid.Row="1" ItemWidth="220" ItemHeight="160">
 
-            <!-- Botón 2: Clientes -->
-            <Button Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnProximamente_Click">
-                <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="👥" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBlock Text="Maestro Clientes" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Button>
+			<!-- Botón 1: Punto de Venta (Destacado en verde) -->
+			<Button Background="#20C997" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnPos_Click">
+				<StackPanel VerticalAlignment="Center">
+					<TextBlock Text="🛒" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
+					<TextBlock Text="Punto de Venta" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+				</StackPanel>
+			</Button>
 
-            <!-- Botón 3: Administración -->
-            <Button Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnProximamente_Click">
-                <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="⚙️" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBlock Text="Administración" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Button>
+			<!-- Botón 2: Clientes -->
+			<Button Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnClientes_Click">
+				<StackPanel VerticalAlignment="Center">
+					<TextBlock Text="👥" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
+					<TextBlock Text="Maestro Clientes" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+				</StackPanel>
+			</Button>
 
-            <!-- Botón 4: Reportes -->
-            <Button Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnProximamente_Click">
-                <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="📊" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
-                    <TextBlock Text="Informes" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Button>
+			<!-- Botón 3: Administración -->
+			<Button Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnProximamente_Click">
+				<StackPanel VerticalAlignment="Center">
+					<TextBlock Text="⚙️" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
+					<TextBlock Text="Administración" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+				</StackPanel>
+			</Button>
 
-            <!-- Botón Cerrar Sesión (Rojo/Gris) -->
-            <Button Background="#E2E8F0" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnCerrarSesion_Click">
-                <StackPanel VerticalAlignment="Center">
-                    <TextBlock Text="🚪" FontSize="40" HorizontalAlignment="Center" Foreground="#2C3E50" Margin="0,0,0,10"/>
-                    <TextBlock Text="Cerrar Sesión" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Button>
+			<!-- Botón 4: Reportes -->
+			<Button Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnProximamente_Click">
+				<StackPanel VerticalAlignment="Center">
+					<TextBlock Text="📊" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
+					<TextBlock Text="Informes" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+				</StackPanel>
+			</Button>
 
-        </WrapPanel>
-    </Grid>
+			<!-- Botón Cerrar Sesión (Rojo/Gris) -->
+			<Button Background="#E2E8F0" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnCerrarSesion_Click">
+				<StackPanel VerticalAlignment="Center">
+					<TextBlock Text="🚪" FontSize="40" HorizontalAlignment="Center" Foreground="#2C3E50" Margin="0,0,0,10"/>
+					<TextBlock Text="Cerrar Sesión" FontSize="18" FontWeight="Bold" Foreground="#2C3E50" HorizontalAlignment="Center"/>
+				</StackPanel>
+			</Button>
+
+		</WrapPanel>
+	</Grid>
 </UserControl>

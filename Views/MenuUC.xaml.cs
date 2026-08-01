@@ -40,6 +40,12 @@ namespace EPOS_NewUI.Views
             ventanaRaiz.CambiarPantalla(new AdministracionUC());
         }
 
+        private void BtnInformes_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow ventanaRaiz = (MainWindow)Window.GetWindow(this);
+            ventanaRaiz.CambiarPantalla(new InformesUC());
+        }
+
         private void BtnProximamente_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Este módulo se construirá más adelante.", "En Construcción", MessageBoxButton.OK, MessageBoxImage.Information);

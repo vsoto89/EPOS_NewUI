@@ -43,7 +43,7 @@
 			</Button>
 
 			<!-- Botón 4: Reportes -->
-			<Button x:Name="btnInformes" Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnProximamente_Click">
+			<Button x:Name="btnInformes" Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnInformes_Click">
 				<StackPanel VerticalAlignment="Center">
 					<TextBlock Text="📊" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
 					<TextBlock Text="Informes" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>

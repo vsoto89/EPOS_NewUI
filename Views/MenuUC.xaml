@@ -35,7 +35,7 @@
 			</Button>
 
 			<!-- Botón 3: Administración -->
-			<Button x:Name="btnAdmin" Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnProximamente_Click">
+			<Button x:Name="btnAdmin" Background="#2C3E50" Margin="0,0,20,20" BorderThickness="0" Cursor="Hand" Click="BtnAdministracion_Click">
 				<StackPanel VerticalAlignment="Center">
 					<TextBlock Text="⚙️" FontSize="40" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
 					<TextBlock Text="Administración" FontSize="18" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>

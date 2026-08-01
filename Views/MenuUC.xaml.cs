@@ -34,14 +34,17 @@ namespace EPOS_NewUI.Views
             ventanaRaiz.CambiarPantalla(new LoginUC());
         }
 
-        // Mensaje temporal para las vistas que harás más adelante
+        private void BtnAdministracion_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow ventanaRaiz = (MainWindow)Window.GetWindow(this);
+            ventanaRaiz.CambiarPantalla(new AdministracionUC());
+        }
+
         private void BtnProximamente_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Este módulo se construirá más adelante.", "En Construcción", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        // Asegúrate de cambiar o agregar este evento en MenuUC.xaml.cs
-        // Y en tu MenuUC.xaml, el botón del Maestro Clientes debe decir: Click="BtnClientes_Click"
         private void BtnClientes_Click(object sender, RoutedEventArgs e)
         {
             MainWindow ventanaRaiz = (MainWindow)Window.GetWindow(this);

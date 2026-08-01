@@ -3,40 +3,35 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace EPOS_NewUI.Views
 {
-    // 1. CLASE MODELO PARA EL TICKET
     public class TicketItem
     {
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } = string.Empty;
         public int PrecioUnitario { get; set; }
         public int Cantidad { get; set; }
-        
-        // Calcula el total por línea
         public int Total => PrecioUnitario * Cantidad;
         public string TotalFormateado => $"${Total.ToString("N0")}";
     }
 
     public partial class PosPremiumUC : UserControl
     {
-        // 2. LISTA OBSERVABLE PARA AGRUPAR EL CARRITO
-        private ObservableCollection<TicketItem> listaTicket = new ObservableCollection<TicketItem>();
-        
-        // Variable para recordar la categoría seleccionada en los botones grises
+        private readonly ObservableCollection<TicketItem> listaTicket = new ObservableCollection<TicketItem>();
         private string categoriaActual = "Todas";
+        private readonly ObservableCollection<ProductoModel> productosCatalogo = ProductoCatalogService.Instancia.Productos;
 
         public PosPremiumUC()
         {
             InitializeComponent();
             IniciarReloj();
-            
-            // Le decimos al ItemsControl (la lista en pantalla) de dónde sacar los datos
             icTicket.ItemsSource = listaTicket;
+            ActualizarProductosVista();
         }
 
-        // 3. FUNCIONALIDAD DEL RELOJ EN TIEMPO REAL
         private void IniciarReloj()
         {
             DispatcherTimer timer = new DispatcherTimer();
@@ -45,122 +40,112 @@ namespace EPOS_NewUI.Views
             timer.Start();
         }
 
-        // 4. EVENTO: CUANDO SE ESCRIBE EN EL BUSCADOR
         private void TxtBuscar_TextChanged(object sender, TextChangedEventArgs e)
         {
             FiltrarProductos();
         }
 
-        // 5. EVENTO: CLIC EN CATEGORÍA
         private void BtnCategoria_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            if (btn != null && btn.Tag != null)
+            if (sender is Button btn && btn.Tag != null)
             {
-                categoriaActual = btn.Tag.ToString(); // Guardamos la categoría actual
+                categoriaActual = btn.Tag.ToString() ?? "Todas";
                 FiltrarProductos();
             }
         }
 
-        // 6. MÉTODO CENTRAL DE FILTRADO (Buscador + Categoría)
+        private void ActualizarProductosVista()
+        {
+            wpProductos.Children.Clear();
+
+            foreach (var producto in productosCatalogo.Where(p => p.Activo))
+            {
+                var stack = new StackPanel();
+                stack.Children.Add(new TextBlock
+                {
+                    Text = producto.Nombre,
+                    Foreground = Brushes.White,
+                    FontWeight = FontWeights.SemiBold,
+                    FontSize = 14
+                });
+                stack.Children.Add(new TextBlock
+                {
+                    Text = "$ " + producto.Precio.ToString("N0"),
+                    Foreground = Brushes.LimeGreen,
+                    FontWeight = FontWeights.Bold,
+                    Margin = new Thickness(0, 5, 0, 0)
+                });
+
+                var boton = new Button
+                {
+                    Content = stack,
+                    Tag = producto,
+                    Background = Brushes.DimGray,
+                    Margin = new Thickness(0, 0, 15, 15),
+                    Padding = new Thickness(15),
+                    BorderThickness = new Thickness(0),
+                    Cursor = Cursors.Hand
+                };
+
+                boton.Click += BtnProducto_Click;
+                wpProductos.Children.Add(boton);
+            }
+
+            FiltrarProductos();
+        }
+
         private void FiltrarProductos()
         {
-            // Pasamos todo a minúsculas para que no importe si escriben "C" o "c"
-            string textoBuscado = txtBuscar.Text.ToLower();
+            string textoBuscado = txtBuscar.Text?.ToLower() ?? string.Empty;
 
-            // Recorremos todos los botones de producto en el WrapPanel
             foreach (UIElement elemento in wpProductos.Children)
             {
-                if (elemento is Button btnProducto && btnProducto.Tag != null)
+                if (elemento is Button btnProducto && btnProducto.Tag is ProductoModel producto)
                 {
-                    // Extraemos los datos ("Categoria|Nombre|Precio")
-                    string[] datos = btnProducto.Tag.ToString().Split('|');
-                    
-                    // Verificamos que el Tag tenga la estructura correcta para evitar errores
-                    if(datos.Length >= 2)
-                    {
-                        string categoria = datos[0];
-                        string nombre = datos[1].ToLower(); // Pasamos el nombre a minúsculas también
+                    bool pasaFiltroCategoria = categoriaActual == "Todas" || producto.Categoria == categoriaActual;
+                    bool pasaFiltroTexto = string.IsNullOrEmpty(textoBuscado) || producto.Nombre.ToLower().StartsWith(textoBuscado);
 
-                        // Verificamos si pasa el filtro de la categoría de los botones grises
-                        bool pasaFiltroCategoria = (categoriaActual == "Todas" || categoria == categoriaActual);
-                        
-                        // Verificamos si pasa el filtro de texto
-                        // Usamos .StartsWith para buscar por la primera letra.
-                        bool pasaFiltroTexto = string.IsNullOrEmpty(textoBuscado) || nombre.StartsWith(textoBuscado);
-
-                        // Si cumple AMBAS condiciones, se muestra. Si no, se oculta.
-                        if (pasaFiltroCategoria && pasaFiltroTexto)
-                        {
-                            btnProducto.Visibility = Visibility.Visible;
-                        }
-                        else
-                        {
-                            btnProducto.Visibility = Visibility.Collapsed;
-                        }
-                    }
+                    btnProducto.Visibility = pasaFiltroCategoria && pasaFiltroTexto ? Visibility.Visible : Visibility.Collapsed;
                 }
             }
         }
 
-        // 7. EVENTO: CLIC EN UN PRODUCTO (AGREGAR AL TICKET)
         private void BtnProducto_Click(object sender, RoutedEventArgs e)
         {
-            Button btnClickeado = sender as Button;
-            
-            if (btnClickeado != null && btnClickeado.Tag != null)
+            if (sender is Button btnClickeado && btnClickeado.Tag is ProductoModel producto)
             {
-                // Extraemos Categoria, Nombre y Precio del Tag ("Bebidas|Café Americano|3000")
-                string[] datosProducto = btnClickeado.Tag.ToString().Split('|');
-                
-                if(datosProducto.Length >= 3)
+                TicketItem itemExistente = listaTicket.FirstOrDefault(i => i.Nombre == producto.Nombre);
+
+                if (itemExistente != null)
                 {
-                    string nombre = datosProducto[1];
-                    int precio = int.Parse(datosProducto[2]);
-
-                    // Buscamos si el producto ya está en el ticket
-                    TicketItem itemExistente = listaTicket.FirstOrDefault(i => i.Nombre == nombre);
-
-                    if (itemExistente != null)
-                    {
-                        // Si existe, le sumamos 1 a la cantidad
-                        itemExistente.Cantidad++;
-                    }
-                    else
-                    {
-                        // Si no existe, creamos una nueva línea
-                        listaTicket.Add(new TicketItem { Nombre = nombre, PrecioUnitario = precio, Cantidad = 1 });
-                    }
-
-                    RefrescarTicket();
+                    itemExistente.Cantidad++;
                 }
+                else
+                {
+                    listaTicket.Add(new TicketItem { Nombre = producto.Nombre, PrecioUnitario = (int)producto.Precio, Cantidad = 1 });
+                }
+
+                ProductoCatalogService.Instancia.ReducirStock(producto.Id);
+                RefrescarTicket();
+                ActualizarProductosVista();
             }
         }
 
-        // 8. EVENTO: CLIC EN EL BOTÓN "+" DEL TICKET
         private void BtnSumarItem_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            TicketItem item = btn.Tag as TicketItem; // Rescatamos a qué item le hizo clic
-            
-            if(item != null)
+            if (sender is Button btn && btn.Tag is TicketItem item)
             {
                 item.Cantidad++;
                 RefrescarTicket();
             }
         }
 
-        // 9. EVENTO: CLIC EN EL BOTÓN "-" DEL TICKET
         private void BtnRestarItem_Click(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
-            TicketItem item = btn.Tag as TicketItem;
-            
-            if(item != null)
+            if (sender is Button btn && btn.Tag is TicketItem item)
             {
                 item.Cantidad--;
-                
-                // Si la cantidad llega a 0, eliminamos el producto del ticket
+
                 if (item.Cantidad <= 0)
                 {
                     listaTicket.Remove(item);
@@ -170,13 +155,10 @@ namespace EPOS_NewUI.Views
             }
         }
 
-        // 10. ACTUALIZAR TOTALES Y REFRESCAR VISTA
         private void RefrescarTicket()
         {
-            // Forzamos a la lista visual a refrescar sus datos
             icTicket.Items.Refresh();
 
-            // Sumamos el total de cada línea
             int subtotalTicket = listaTicket.Sum(i => i.Total);
             int iva = (int)(subtotalTicket * 0.19);
             int total = subtotalTicket + iva;
@@ -184,20 +166,18 @@ namespace EPOS_NewUI.Views
             txtSubtotal.Text = $"Subtotal: ${subtotalTicket.ToString("N0")}";
             txtIva.Text = $"IVA (19%): ${iva.ToString("N0")}";
             txtTotal.Text = $"Total: ${total.ToString("N0")}";
-            
-            // Sumamos la CANTIDAD total de artículos (ej: 2 cafés + 1 jugo = 3)
+
             int cantidadArticulos = listaTicket.Sum(i => i.Cantidad);
             txtContadorArticulos.Text = $"{cantidadArticulos} artículos";
         }
 
-        // 11. FUNCIONALIDAD DE LIMPIAR LA VENTA
         private void BtnLimpiar_Click(object sender, RoutedEventArgs e)
         {
-            listaTicket.Clear(); 
-            RefrescarTicket();             
+            listaTicket.Clear();
+            RefrescarTicket();
+            ActualizarProductosVista();
         }
 
-        // 12. FUNCIONALIDAD DE COBRO
         private void BtnCobrar_Click(object sender, RoutedEventArgs e)
         {
             if (listaTicket.Count > 0)
@@ -211,7 +191,6 @@ namespace EPOS_NewUI.Views
             }
         }
 
-        // 13. FUNCIONALIDAD DE VOLVER AL MENÚ
         private void BtnVolver_Click(object sender, RoutedEventArgs e)
         {
             MainWindow ventanaRaiz = (MainWindow)Window.GetWindow(this);

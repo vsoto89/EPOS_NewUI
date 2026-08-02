@@ -1,3 +1,4 @@
+using EPOS_NewUI.Data;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -22,12 +23,14 @@ namespace EPOS_NewUI.Views
     {
         private readonly ObservableCollection<TicketItem> listaTicket = new ObservableCollection<TicketItem>();
         private string categoriaActual = "Todas";
-        private readonly ObservableCollection<ProductoModel> productosCatalogo = ProductoCatalogService.Instancia.Productos;
+        private readonly ProductoRepository productoRepository = new ProductoRepository();
+        private ObservableCollection<ProductoModel> productosCatalogo;
 
         public PosPremiumUC()
         {
             InitializeComponent();
             IniciarReloj();
+            productosCatalogo = productoRepository.ObtenerTodos();
             icTicket.ItemsSource = listaTicket;
             ActualizarProductosVista();
         }
@@ -125,7 +128,8 @@ namespace EPOS_NewUI.Views
                     listaTicket.Add(new TicketItem { Nombre = producto.Nombre, PrecioUnitario = (int)producto.Precio, Cantidad = 1 });
                 }
 
-                ProductoCatalogService.Instancia.ReducirStock(producto.Id);
+                producto.Id = producto.Id;
+                productoRepository.Guardar(producto);
                 RefrescarTicket();
                 ActualizarProductosVista();
             }

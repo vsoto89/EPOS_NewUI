@@ -1,3 +1,4 @@
+using EPOS_NewUI.Data;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,11 +22,12 @@ namespace EPOS_NewUI.Views
     {
         private readonly ObservableCollection<ProductoModel> productos;
         private ProductoModel? productoSeleccionado;
+        private readonly ProductoRepository productoRepository = new ProductoRepository();
 
         public AdministracionUC()
         {
             InitializeComponent();
-            productos = ProductoCatalogService.Instancia.Productos;
+            productos = productoRepository.ObtenerTodos();
             dgProductos.ItemsSource = productos;
         }
 
@@ -76,7 +78,12 @@ namespace EPOS_NewUI.Views
                     Activo = chkActivo.IsChecked == true
                 };
 
-                ProductoCatalogService.Instancia.AgregarOActualizar(nuevoProducto);
+                productoRepository.Guardar(nuevoProducto);
+                productos.Clear();
+                foreach (var producto in productoRepository.ObtenerTodos())
+                {
+                    productos.Add(producto);
+                }
                 MessageBox.Show("Producto agregado correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
@@ -94,7 +101,8 @@ namespace EPOS_NewUI.Views
             var resultado = MessageBox.Show($"¿Desea eliminar el producto '{productoSeleccionado.Nombre}'?", "Confirmar eliminación", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (resultado == MessageBoxResult.Yes)
             {
-                ProductoCatalogService.Instancia.Eliminar(productoSeleccionado);
+                productoRepository.Eliminar(productoSeleccionado.Id);
+                productos.Remove(productoSeleccionado);
                 LimpiarFormulario();
                 MessageBox.Show("Producto eliminado.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
             }

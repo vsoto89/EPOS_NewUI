@@ -1,5 +1,5 @@
+using EPOS_NewUI.Data;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -25,6 +25,7 @@ namespace EPOS_NewUI.Views
     {
         private readonly ObservableCollection<VentaResumen> productosVendidos = new ObservableCollection<VentaResumen>();
         private readonly ObservableCollection<VentaRegistro> ultimasVentas = new ObservableCollection<VentaRegistro>();
+        private readonly VentaRepository ventaRepository = new VentaRepository();
 
         public InformesUC()
         {
@@ -39,13 +40,15 @@ namespace EPOS_NewUI.Views
             productosVendidos.Clear();
             ultimasVentas.Clear();
 
+            var ventas = ventaRepository.ObtenerUltimas(5);
+            foreach (var venta in ventas)
+            {
+                ultimasVentas.Add(venta);
+            }
+
             productosVendidos.Add(new VentaResumen { Producto = "Café Americano", Cantidad = 8, Total = 24000 });
             productosVendidos.Add(new VentaResumen { Producto = "Sandwich Club", Cantidad = 5, Total = 20000 });
             productosVendidos.Add(new VentaResumen { Producto = "Cheesecake", Cantidad = 3, Total = 15000 });
-
-            ultimasVentas.Add(new VentaRegistro { Detalle = "Ticket #101 - Café Americano x2", Total = 6000 });
-            ultimasVentas.Add(new VentaRegistro { Detalle = "Ticket #102 - Sandwich Club x1", Total = 4000 });
-            ultimasVentas.Add(new VentaRegistro { Detalle = "Ticket #103 - Cheesecake x2", Total = 10000 });
 
             ActualizarResumen();
         }
